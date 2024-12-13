@@ -1,0 +1,59 @@
+'''Write a Python program to store marks scored in subject “Fundamental of Data 
+Structure” by N students in the class. Write functions to compute following: 
+a) The average score of class  
+b) Highest score and lowest score of class  
+c) Count of students who were absent for the test 
+d) Display mark with highest frequency'''
+marks=[]
+N=int(input("Enter No of students in the class :"))
+def inputt(list):
+    
+    for i in range(N):
+        count=0
+        a=int(input("Enter marks of FDS(Enter zero if absent)"))
+        if a==0:
+            count=count+1
+        else:
+            marks.append(a)
+    print("Count of students who were absent for the test =",count)
+
+'''Average Score'''
+def avg(list):
+    sum=0
+    for i in list:
+        sum = sum+i
+    avg=sum/N
+    print("The Average score of class =",avg)
+
+'''highest'''
+def highest(list):
+    high = list[0]
+    for i in list:
+        if (i>high):
+            high=i
+    print("Highest Score",high)
+
+'''lowest'''
+def lowest(list):
+    low = list[0]
+    for i in list:
+        if(i<low):
+            low=i
+    print("Lowest Score",low)
+
+'''frequency'''
+def frequency(list):
+    c=0
+    num = list[0]
+    for i in list:
+        freq=list.count(i)
+        if(freq>c):
+            c=freq
+            num=i
+    print("Highest frequency marks are :",num)
+
+a=inputt(marks)
+g=avg(marks)
+b =highest(marks)
+c =lowest(marks)
+d =frequency(marks)

@@ -1,0 +1,59 @@
+'''Write a Python program for department library which has N books, write functions for 
+following: 
+a) Delete the duplicate entries 
+b) Display books in ascending order based on cost of books 
+c) Count number of books with cost more than 500.  
+d) Copy books in a new list which has cost less than 500'''
+'''input'''
+cost=[]
+book=[]
+n=int(input("Enter no of books in library "))
+for i in range(n):
+    c=int(input("Enter the price of book"))
+    b=int(input("Enter the name of book"))
+    cost.append(c)
+    book.append(b)
+print(cost)
+print(book)
+
+'''Sorting'''
+for i in range(len(cost)):
+    for j in range(len(cost)-i-1):
+        if(cost[j]>cost[j+1]):
+            temp=cost[j]
+            cost[j]=cost[j+1]
+            cost[j+1]=temp
+            temp_1 = book[j]
+            book[j] = book[j+1]
+            book[j+1] =temp_1
+print("The sorted list is cost is:",cost)
+print("The sorted list of book is:",book)
+
+'''delete'''
+j=1
+for i in range(len(cost)):
+    if i < len(cost)-1:
+        if(cost[i]==cost[j] and book[i]==book[j]):
+            cost.remove(cost[i])
+            book.remove(book[i])
+    j=j+1
+
+print(cost)
+print(book)
+
+'''more than 500'''
+count=0
+for i in cost:
+    if i>500:
+        count=count+1
+print("Count of number of books with cost more than 500",count)
+
+'''less than 500'''
+new=[]
+b=[]
+for i in range(len(cost)):
+    if cost[i]< 500:
+        new.append(cost[i])
+        b.append(book[i])
+print("Copy book list which has cost less than 500",new)
+print("Copy book name list which has cost less than 500",b)

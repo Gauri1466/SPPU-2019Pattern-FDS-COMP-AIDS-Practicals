@@ -1,0 +1,81 @@
+'''b) Write a Python program to store roll numbers of student array who attended training 
+program in sorted order. Write function for searching whether particular student 
+attended training program or not, using Binary search and Fibonacci search'''
+rn=[]
+n=int(input("Enter the no of studens:"))
+print("Enter the roll no of present student for traning program")
+for i in range(n):
+    rollno=int(input())
+    rn.append(rollno)
+#print(rn)
+
+#sorted array
+for i in range (len(rn)):
+    for j in range (len(rn)-i-1):
+        if(rn[j]>rn[j+1]):
+            temp=rn[j]
+            rn[j]=rn[j+1]
+            rn[j+1]=temp
+print(rn)
+key=int(input("Enter number you want to search"))
+#Binary Search
+def binary(rn,key):
+ 
+    i=0
+    low=i
+    high=len(rn)-1
+    flag=0
+    while(low<=high):
+        mid=int((low+high)/2)
+        if(key==rn[mid]):
+            flag=1
+            break
+        if(key>rn[mid]):
+            low=mid+1
+        else:
+            high=mid-1
+    if(flag==1):
+        print("Using Binary Search")
+        print(mid+1,"th location element is found")
+    else:
+        print("Using Binary Search")
+        print("Element not found")
+x=binary(rn,key)
+
+
+#fibonacci Search
+def fibonacci_search(rn,key):
+    n=len(rn)
+    fib1=0
+    fib2=1
+    fibM=fib1 + fib2
+
+    while fibM < n:
+        fib1=fib2
+        fib2=fib3
+        fibM=fib1+fib2
+    offset=-1
+    while fib1 > 1:
+        i=min(offset+fib2,n-1)
+        if rn[i]<key:
+            fibM=fib2
+            fib2=fib1
+            fib1=fibM-fib2
+            offset=i
+        elif rn[i] > key:
+            fibM=fib1
+            fib2=fib2-fib1
+            fib1= fib3-fib2
+            
+        else:
+            return i
+
+
+    if fib2==1 and rn[offset+1] == key:
+        return offset+1
+    return -1
+y=fibonacci_search(rn,key) 
+if(y==-1):
+    print("Element not found")
+else:
+    print("Element found at",y+1)

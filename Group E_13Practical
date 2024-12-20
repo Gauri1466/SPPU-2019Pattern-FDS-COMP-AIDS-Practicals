@@ -1,0 +1,68 @@
+Queues are frequently used in computer programming, and a typical example is the 
+creation of a job queue by an operating system. If the operating system does not use 
+priorities, then the jobs are processed in the order they enter the system. Write C++ 
+program for simulating job queue. Write functions to add job and delete job from queue
+#include<iostream>
+using namespace std;
+#define SIZE 10
+class Queue{
+    public:
+    int queue[SIZE],front,rear;
+    Queue(){
+        front=-1;
+        rear=-1;
+    }
+    int push(int x);
+    int pop();
+    int isfull();
+    int isempty();
+    int display();
+
+};
+
+}
+int Queue:: push(int x){
+    if((isfull())==0){
+        cout<<"Queue is overfolw";
+    }
+    if(front==-1){
+        front=0;
+        rear=rear+1;
+        queue[rear]=x;
+    }
+        
+}
+int Queue ::pop(){
+    if(isempty()==0){
+        cout<<"Queue is in underflow";
+    }
+    else{
+        queue[front++];
+    }
+}
+int Queue :: display(){
+    if(front==-1){
+        cout<<"Queue is  empty";
+    }
+    else{
+    for(int i=front;i<=rear;i++){
+        cout<<queue[i]<<"\n";
+    }
+    }
+}
+int main(){
+    Queue q;
+    q.push(10);
+    q.push(20);
+    q.push(90);
+    q.push(78);
+    q.display();
+    q.pop();
+    q.pop();
+    q.display();
+
+
+
+
+    return 0;
+}

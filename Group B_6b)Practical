@@ -1,0 +1,50 @@
+Write a Python program to store second year percentage of students in array. Write 
+function for sorting array of floating point numbers in ascending order using  
+a) Insertion sort  
+b) Shell Sort and display top five scores 
+#insertion sort and shell sort
+#folating point no
+std=[]
+def inputt(list):
+    n=int(input("Enter the no of student in class"))
+    for i in range(n):
+        per=float(input("Enter the marks of students of first year :"))
+        list.append(per)
+    return list
+
+def insertion_sort(std):
+    n=len(std)
+    for i in range(n):
+        temp=std[i]
+        j=i-1
+        while((j>=0)and(std[j]>temp)):
+            std[j+1]=std[j]
+            j=j-1
+        std[j+1]=temp
+    return std
+def shell_sort(std):
+    gap=len(std)//2
+    while(gap>0):
+        for i in range(gap,len(std)):
+            temp=std[i]
+            j=i
+            while(j>=gap and std[j-gap]>temp):
+                std[j]=std[j+1]
+                j=j-gap
+            
+            std[j]=temp
+        gap//=2
+    return std
+
+def top_five(std):
+    print("top percentage")
+    print(std[::-1],sep="\n")
+x=inputt(std)
+print(std)
+y=insertion_sort(std)
+print(y)
+z=shell_sort(std)
+print(z)
+a=top_five(std)
+        
+            

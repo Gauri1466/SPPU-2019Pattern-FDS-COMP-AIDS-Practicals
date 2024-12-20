@@ -1,0 +1,204 @@
+Department of Computer Engineering has student's club named 'Pinnacle Club'. Students 
+of second, third and final year of department can be granted membership on request. 
+Similarly one may cancel the membership of club. First node is reserved for president of 
+club and last node is reserved for secretary of club. Write C++ program to maintain club 
+member‘s information using singly linked list. Store student PRN and Name. Write 
+functions to: 
+a) Add and delete the members as well as president or even secretary. 
+b) Compute total number of members of club 
+c) Display members 
+d) Two linked lists exists for two divisions. Concatenate two lists.
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node {
+public:
+    string name;
+    int prn;
+    Node* next;
+
+    Node(string name, int prn) {
+        this->name = name;
+        this->prn = prn;
+        this->next = nullptr;
+    }
+};
+
+class PinnacleClub {
+private:
+    Node* head;  // President
+    Node* tail;  // Secretary
+    int memberCount;
+
+public:
+    PinnacleClub() {
+        head = tail = nullptr;
+        memberCount = 0;
+    }
+
+    // Add a member
+    void addMember(string name, int prn, string position = "member") {
+        Node* newNode = new Node(name, prn);
+
+        if (position == "president") {
+            if (head) {
+                cout << "President already exists! Replace with new president.\n";
+            }
+            newNode->next = head;
+            head = newNode;
+            if (!tail) tail = newNode; // If no secretary exists
+        } else if (position == "secretary") {
+            if (tail && tail != head) {
+                cout << "Secretary already exists! Replace with new secretary.\n";
+            }
+            if (!head) {
+                head = tail = newNode;
+            } else {
+                if (tail) tail->next = newNode;
+                tail = newNode;
+            }
+        } else {
+            if (!head) {
+                cout << "No president exists! Please add a president first.\n";
+                delete newNode;
+                return;
+            }
+            if (!tail) {
+                cout << "No secretary exists! Please add a secretary first.\n";
+                delete newNode;
+                return;
+            }
+            Node* temp = head;
+            while (temp->next != tail) {
+                temp = temp->next;
+            }
+            newNode->next = tail;
+            temp->next = newNode;
+        }
+        memberCount++;
+        cout << position << " added successfully.\n";
+    }
+
+    // Delete a member
+    void deleteMember(int prn) {
+        if (!head) {
+            cout << "The club has no members.\n";
+            return;
+        }
+
+        if (head->prn == prn) { // Deleting president
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            memberCount--;
+            cout << "President removed successfully.\n";
+            return;
+        }
+
+        Node* prev = nullptr;
+        Node* temp = head;
+        while (temp && temp->prn != prn) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        if (!temp) {
+            cout << "Member with PRN " << prn << " not found.\n";
+            return;
+        }
+
+        if (temp == tail) { // Deleting secretary
+            tail = prev;
+            tail->next = nullptr;
+            delete temp;
+            memberCount--;
+            cout << "Secretary removed successfully.\n";
+            return;
+        }
+
+        prev->next = temp->next; // Deleting a regular member
+        delete temp;
+        memberCount--;
+        cout << "Member removed successfully.\n";
+    }
+
+    // Display members
+    void displayMembers() {
+        if (!head) {
+            cout << "No members in the club.\n";
+            return;
+        }
+
+        cout << "Club Members:\n";
+        Node* temp = head;
+        while (temp) {
+            cout << "Name: " << temp->name << ", PRN: " << temp->prn;
+            if (temp == head) cout << " (President)";
+            else if (temp == tail) cout << " (Secretary)";
+            cout << "\n";
+            temp = temp->next;
+        }
+    }
+
+    // Compute total number of members
+    int totalMembers() {
+        return memberCount;
+    }
+
+    // Concatenate two lists
+    void concatenate(PinnacleClub& otherClub) {
+        if (!head) {
+            head = otherClub.head;
+            tail = otherClub.tail;
+            memberCount = otherClub.memberCount;
+        } else if (otherClub.head) {
+            tail->next = otherClub.head;
+            tail = otherClub.tail;
+            memberCount += otherClub.memberCount;
+        }
+        otherClub.head = nullptr;
+        otherClub.tail = nullptr;
+        otherClub.memberCount = 0;
+        cout << "Lists concatenated successfully.\n";
+    }
+};
+
+int main() {
+    PinnacleClub divisionA, divisionB;
+
+    // Adding members to Division A
+    divisionA.addMember("Alice", 101, "president");
+    divisionA.addMember("Bob", 102);
+    divisionA.addMember("Charlie", 103);
+    divisionA.addMember("Eve", 104, "secretary");
+
+    // Adding members to Division B
+    divisionB.addMember("Dave", 201, "president");
+    divisionB.addMember("Ellen", 202);
+    divisionB.addMember("Frank", 203, "secretary");
+
+    // Display members
+    cout << "\nDivision A Members:\n";
+    divisionA.displayMembers();
+
+    cout << "\nDivision B Members:\n";
+    divisionB.displayMembers();
+
+    // Total members
+    cout << "\nTotal members in Division A: " << divisionA.totalMembers() << "\n";
+
+    // Deleting a member
+    cout << "\nDeleting Bob (PRN 102) from Division A:\n";
+    divisionA.deleteMember(102);
+    divisionA.displayMembers();
+
+    // Concatenate lists
+    cout << "\nConcatenating Division B into Division A:\n";
+    divisionA.concatenate(divisionB);
+    divisionA.displayMembers();
+
+    cout << "\nTotal members in Division A after concatenation: " << divisionA.totalMembers() << "\n";
+
+    return 0;
+}

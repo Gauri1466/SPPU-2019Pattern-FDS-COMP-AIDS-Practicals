@@ -1,0 +1,140 @@
+Second year Computer Engineering class, set A of students like Vanilla Ice-cream and set 
+B of students like butterscotch ice-cream. Write C++ program to store two sets using 
+linked list. compute and display- 
+a) Set of students who like both vanilla and butterscotch 
+b) Set of students who like either vanilla or butterscotch or not both 
+c) Number of students who like neither vanilla nor butterscotch 
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Node class to represent each student
+class Node {
+public:
+    string name;
+    Node* next;
+
+    Node(string name) {
+        this->name = name;
+        this->next = nullptr;
+    }
+};
+
+class IceCreamSet {
+private:
+    Node* head;
+
+public:
+    IceCreamSet() {
+        head = nullptr;
+    }
+
+    // Add a student to the set
+    void addStudent(string name) {
+        Node* newNode = new Node(name);
+        if (!head) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    // Function to display the set
+    void displaySet() {
+        if (!head) {
+            cout << "The set is empty.\n";
+            return;
+        }
+
+        Node* temp = head;
+        while (temp) {
+            cout << temp->name << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    // Function to find intersection (students who like both Vanilla and Butterscotch)
+    IceCreamSet intersection(IceCreamSet& other) {
+        IceCreamSet result;
+        Node* temp1 = head;
+        while (temp1) {
+            Node* temp2 = other.head;
+            while (temp2) {
+                if (temp1->name == temp2->name) {
+                    result.addStudent(temp1->name);
+                    break;
+                }
+                temp2 = temp2->next;
+            }
+            temp1 = temp1->next;
+        }
+        return result;
+    }
+
+    // Function to find symmetric difference (students who like either Vanilla or Butterscotch but not both)
+    IceCreamSet symmetricDifference(IceCreamSet& other) {
+        IceCreamSet result;
+        Node* temp1 = head;
+
+        // Add all students from Set A that are not in Set B
+        while (temp1) {
+            bool found = false;
+            Node* temp2 = other.head;
+            while (temp2) {
+                if (temp1->name == temp2->name) {
+                    found = true;
+                    break;
+                }
+                temp2 = temp2->next;
+            }
+            if (!found) {
+                result.addStudent(temp1->name);
+            }
+            temp1 = temp1->next;
+        }
+
+        // Add all students from Set B that are not in Set A
+        Node* temp2 = other.head;
+        while (temp2) {
+            bool found = false;
+            Node* temp1 = head;
+            while (temp1) {
+                if (temp2->name == temp1->name) {
+                    found = true;
+                    break;
+                }
+                temp1 = temp1->next;
+            }
+            if (!found) {
+                result.addStudent(temp2->name);
+            }
+            temp2 = temp2->next;
+        }
+        return result;
+    }
+
+    // Function to find the students who like neither Vanilla nor Butterscotch
+    int countNeither(IceCreamSet& allStudents) {
+        int count = 0;
+        Node* temp1 = allStudents.head;
+        while (temp1) {
+            bool foundInA = false;
+            bool foundInB = false;
+
+            // Check if student is in Set A (Vanilla)
+            Node* tempA = head;
+            while (tempA) {
+                if (tempA->name == temp1->name) {
+                    foundInA = true;
+                    break;
+                }
+                tempA = tempA->next;
+            }
+
+            // Check if student is in Set B (Butterscotch)
+            Node* temp

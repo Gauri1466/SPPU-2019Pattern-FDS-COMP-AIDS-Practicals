@@ -1,0 +1,43 @@
+Write a Python program to store first year percentage of students in array. Write 
+function for sorting array of floating point numbers in ascending order using quick sort 
+and display top five scores. 
+def partition(std,start,end):
+    pivot=std[start]
+    lb=start
+    ub=end
+    while True:
+        while(lb<=ub and std[lb]<=pivot):
+            lb+=1
+        while(lb<=ub and std[ub]>=pivot):
+            ub=ub-1
+        if(lb<=ub):
+            std[lb],std[ub]=std[ub],std[lb]
+        else:
+            break
+        std[start],std[ub]=std[ub],std[start]
+    return ub      
+
+def Quick_sort(std,start,end):
+    while start < end:
+        j=partition(std,start,end)
+        Quick_sort(std,start,partition-1)
+        Quick_sort(std,partition+1,end)
+    return std
+
+def display_topfive(std):
+    top_five=std[-5:][::-1]
+    print("Top Five")
+    print(top_five, "\n")
+
+std=[]
+def inputt(list):
+    n=int(input("Enter the no of student in class"))
+    for i in range(n):
+        per=float(input("Enter the marks of students of first year :"))
+        list.append(per)
+    return list
+x=inputt(std)
+print(x)
+z=Quick_sort(std,0,len(std))
+print(z)
+y=display_topfive(std)

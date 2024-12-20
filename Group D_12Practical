@@ -1,0 +1,53 @@
+In any language program mostly syntax error occurs due to unbalancing delimiter such as 
+(),{},[]. Write C++ program using stack to check whether given expression is well 
+parenthesized or not. 
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+// Function to check if the expression is well-parenthesized
+bool isWellParenthesized(const string &expression) {
+    stack<char> s;
+
+    for (char ch : expression) {
+        // Push opening brackets onto the stack
+        if (ch == '(' || ch == '{' || ch == '[') {
+            s.push(ch);
+        }
+        // Check for closing brackets
+        else if (ch == ')' || ch == '}' || ch == ']') {
+            // If stack is empty or top element doesn't match, it's not well-parenthesized
+            if (s.empty()) {
+                return false;
+            }
+
+            char top = s.top();
+            s.pop();
+
+            // Check if the top element matches the corresponding opening bracket
+            if ((ch == ')' && top != '(') || (ch == '}' && top != '{') || (ch == ']' && top != '[')) {
+                return false;
+            }
+        }
+    }
+
+    // If the stack is empty after processing, the expression is well-parenthesized
+    return s.empty();
+}
+
+int main() {
+    string expression;
+
+    cout << "Enter the expression to check: ";
+    cin >> expression;
+
+    if (isWellParenthesized(expression)) {
+        cout << "The expression is well-parenthesized.\n";
+    } else {
+        cout << "The expression is not well-parenthesized.\n";
+    }
+
+    return 0;
+}

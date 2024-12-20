@@ -1,6 +1,6 @@
 '''a) Write a Python program to store roll numbers of student in array who attended 
 training program in random order. Write function for searching whether particular 
-student attended training program or not, using Linear search and Sentinel search. ''' 
+student attended training program or not, using Linear search and Sentinel search. '''
 def linear_search(rn,data):
     #print("using linear seach")
     for i in range(len(rn)):
